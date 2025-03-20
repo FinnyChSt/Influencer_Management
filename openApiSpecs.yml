@@ -1,0 +1,86 @@
+openapi: 3.0.1
+info:
+  title: Influencers
+  description: ""
+  version: 1.0.0
+tags: []
+paths:
+  /influencer:
+    get:
+      summary: Get Influencers
+      deprecated: false
+      description: Get Influencer is wanted filterd but Firstname or last name
+      tags: []
+      parameters:
+        - name: firstName
+          in: query
+          description: ""
+          required: false
+          schema:
+            type: string
+        - name: lastName
+          in: query
+          description: ""
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Influencer"
+          headers: {}
+      security: []
+  /influencers:
+    post:
+      summary: Add Influencers
+      deprecated: false
+      description: Create a new Influencer
+      tags: []
+      parameters: []
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Influencer"
+          headers: {}
+      security: []
+components:
+  schemas:
+    Influencer:
+      type: object
+      properties:
+        UId:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        socialMedia:
+          type: array
+          items:
+            type: object
+            properties:
+              SmId:
+                type: string
+              username:
+                type: string
+              type:
+                {type: string, enum: [ Instagram, TikTok]}
+            required:
+              - SmId
+              - username
+              - type
+      required:
+        - UId
+        - firstname
+        - lastname
+        - socialMedia
+  securitySchemes: {}
+servers: []

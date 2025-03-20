@@ -1,0 +1,17 @@
+{
+  "name": "influencer-servicev1",
+  "version": "1.0.0",
+  "description": "Ac:",
+  "main": "index.js",
+  "scripts": {
+    "start-app": "cd influencer-app && pnpm dev",
+    "start-service": "cd influencer-service && pnpm start:dev",
+    "test-app": "cd influencer-app && pnpm test",
+    "test-service": "cd influencer-service && pnpm test",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

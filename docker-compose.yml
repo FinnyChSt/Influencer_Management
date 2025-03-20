@@ -1,0 +1,72 @@
+services:
+  mariadb-service:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "healthcheck.sh",
+          "--su-mysql",
+          "--connect",
+          "--innodb_initialized",
+        ]
+      start_period: 1m
+      start_interval: 10s
+      interval: 1m
+      timeout: 5s
+      retries: 3
+    networks:
+      - influencer-network
+
+  influencer-service:
+    build:
+      context: ./influencer-service
+      dockerfile: Dockerfile
+    container_name: influencer-service
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=mariadb-service
+      - DB_PORT=3306
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    ports:
+      - "3000:3000"
+    depends_on:
+      mariadb-service:
+        condition: service_healthy
+    networks:
+      - influencer-network
+
+  influencer-app:
+    build:
+      context: ./influencer-app
+      dockerfile: Dockerfile
+    container_name: influencer-app
+    restart: always
+    ports:
+      - "5173:4173"
+    depends_on:
+      - influencer-service
+    networks:
+      - influencer-network
+
+volumes:
+  mariadb-data:
+    driver: local
+
+networks:
+  influencer-network:
+    driver: bridge
