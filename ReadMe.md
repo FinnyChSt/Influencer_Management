@@ -35,9 +35,10 @@ docker-compose up -d
 
 ### Running app locally
 
-2. For the Backend service run the follwing command:
+2. For the Backend service run the follwing commands:
 
 ```
+docker-compose up -d mariadb-service
 npm run start:service
 ```
 
