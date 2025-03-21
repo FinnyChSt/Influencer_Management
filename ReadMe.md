@@ -39,12 +39,14 @@ docker-compose up -d
 
 ```
 docker-compose up -d mariadb-service
+npm run install:service
 npm run start:service
 ```
 
-3. For the app run the following command:
+3. For the app run the following commands:
 
 ```
+npm run install:app
 npm run start:app
 
 ```
